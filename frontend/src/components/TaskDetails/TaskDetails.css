@@ -1,0 +1,180 @@
+.task {
+    padding: 2rem 3rem;
+    font-family: "Poppins", sans-serif;
+}
+
+.task-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-weight: 700;
+}
+
+.task-head>img {
+    width: 24px;
+    height: 24px;
+}
+
+.task-detalis {
+    margin: 0 auto;
+    width: 40%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    border-radius: 12px;
+    border: 2px solid #EDF5FE;
+    transform: translate(-50%, -50%);
+    background-color: #FFFFFF;
+    z-index: 100;
+    padding: 3rem 2rem;
+    font-weight: 500;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-family: "Poppins", sans-serif;
+}
+
+.prio {
+    font-size: 10px;
+    color: #707070;
+    list-style-type: none;
+    position: relative;
+    padding-left: 1rem;
+}
+
+.prio::before {
+    content: '.';
+    position: absolute;
+    top: -8.5px;
+    left: 0;
+    font-size: 3.5rem;
+    line-height: 0;
+}
+
+.prio.high::before {
+    color: #FF2473;
+}
+
+.prio.moderate::before {
+    color: #18B0FF;
+}
+
+.prio.low::before {
+    color: #63C05B;
+}
+
+.task-detalis>p {
+    font-weight: 500;
+    font-size: 22px;
+    margin-bottom: 1rem;
+}
+
+.checklists-container>p {
+    font-family: "Inter", sans-serif;
+    margin-bottom: 1rem;
+}
+
+.checklists {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-family: "Inter", sans-serif;
+    overflow-y: auto;
+    max-height: 250px;
+}
+
+.checklists::-webkit-scrollbar {
+    width: 10px;
+}
+
+.checklists::-webkit-scrollbar-thumb {
+    background-color: #8DAAB9;
+    border-radius: 10px;
+}
+
+.checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid #E2E2E2;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 16px;
+}
+
+.checklist-item>input {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #E2E2E2;
+    border-radius: 6px;
+    appearance: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.checklist-item>input:checked {
+    background-color: #17A2B8;
+    border: none;
+}
+
+.checklist-item>input:checked::before {
+    content: '✔';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.checklist-item>p {
+    max-width: calc(100% - 34px);
+}
+
+.dueDate-field {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.dueDate {
+    padding: 5px 10px;
+    background-color: #CF3636;
+    color: #FFFFFF;
+    border-radius: 8px;
+}
+
+@media screen and (max-width: 768px) {
+
+    .task {
+        padding: 2rem 1.5rem;
+    }
+
+    .task-detalis {
+        width: 100%;
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: none;
+        border-radius: 20px;
+        padding: 1rem 1rem 2rem;
+        margin-top: 2rem;
+    }
+
+    .task-detalis>p {
+        margin-bottom: 0;
+        font-size: 18px;
+    }
+
+    .checklists {
+        max-height: 325px;
+    }
+
+    .checklist-item {
+        font-size: 14px;
+    }
+}

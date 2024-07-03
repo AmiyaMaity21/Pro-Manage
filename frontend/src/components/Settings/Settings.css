@@ -1,0 +1,34 @@
+.settings {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    font-family: "Open Sans", sans-serif;
+}
+
+.settings-container {
+    width: 85%;
+    padding: 2rem;
+    font-weight: 500;
+}
+
+.settings-container>h2 {
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.edit-form {
+    width: 40%;
+}
+
+.edit-btn {
+    width: 100%;
+    background-color: #17A2B8;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 50px;
+    padding: 0.65rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    font-size: 16px;
+}

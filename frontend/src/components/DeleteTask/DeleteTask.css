@@ -1,0 +1,44 @@
+.delete-form {
+    margin: 0 auto;
+    width: 25%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    border-radius: 11px;
+    transform: translate(-50%, -50%);
+    background-color: #FFFFFF;
+    z-index: 100;
+    padding: 1.5rem 1rem;
+    font-weight: 600;
+    font-size: 14px;
+    font-family: "Noto Sans", sans-serif;
+}
+
+.delete-form>p{
+    text-align: center;
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.delete-form>div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.delete-form>div>button {
+    width: 100%;
+    outline: none;
+    border: none;
+    padding: 0.5rem 0;
+    font-size: 16px;
+    border-radius: 12px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.confirm-delete {
+    background-color: #17A2B8;
+    color: #FFFFFF;
+}
