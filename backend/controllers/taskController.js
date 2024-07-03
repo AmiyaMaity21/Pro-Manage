@@ -96,58 +96,58 @@ const updateTaskDetailsById = async (req, res, next) => {
       return res.status(404).json({ errorMessage: "Task not found" });
     }
 
-    // Check if the user is either the creator or the assignUser
-    if (
-      task.createdBy.toString() !== req.user.id &&
-      task.assignUser !== req.user.email
-    ) {
+    const isCreator = task.createdBy.toString() === req.user.id;
+    const isAssignedUser = task.assignUser === req.user.email;
+
+    if (!isCreator && !isAssignedUser) {
       return res.status(403).json({ errorMessage: "Unauthorized action" });
     }
 
-    const { checklists } = req.body;
-
-    // Allow assignUser to update checklists
-    if (req.user.email === task.assignUser && checklists) {
-      const updatedTask = await Task.findByIdAndUpdate(
-        req.params.taskId,
-        { checklists },
-        { new: true, runValidators: true, useFindAndModify: false }
-      );
-      return res.status(200).json({ success: true, task: updatedTask });
-    }
-
-    // For other updates (title, priority, dueDate, taskStatus)
-    const { title, priority, assignUser, dueDate, taskStatus } = req.body;
+    const { title, priority, assignUser, checklists, dueDate, taskStatus } =
+      req.body;
     let taskData = {};
 
-    if (taskStatus) {
-      taskData.taskStatus = taskStatus;
-    }
+    if (isCreator) {
+      if (taskStatus) taskData.taskStatus = taskStatus;
+      if (checklists) taskData.checklists = checklists;
+      if (title) taskData.title = title.trim();
+      if (priority) taskData.priority = priority;
+      if (assignUser) taskData.assignUser = assignUser;
 
-    if (title && priority && checklists.length > 0) {
-      let formattedDueDate;
+      if (
+        (title || priority) &&
+        (!title || !priority || (checklists && checklists.length === 0))
+      ) {
+        return res
+          .status(400)
+          .json({ errorMessage: "Please fill all the required fields" });
+      }
+
       if (dueDate) {
         const [day, month, year] = dueDate.split("/");
-        formattedDueDate = new Date(`${year}-${month}-${day}`);
+        taskData.dueDate = new Date(`${year}-${month}-${day}`);
       }
-      taskData = {
-        ...taskData,
-        title: title.trim(),
-        priority: priority,
-        assignUser: assignUser,
-        checklists: checklists,
-        dueDate: formattedDueDate,
-        createdBy: req.user.id,
-      };
+    } else if (isAssignedUser) {
+      if (checklists) {
+        taskData.checklists = checklists;
+      } else {
+        return res
+          .status(400)
+          .json({ errorMessage: "Unauthorized action" });
+      }
     }
 
     const updatedTask = await Task.findByIdAndUpdate(
       req.params.taskId,
       taskData,
-      { new: true, runValidators: true, useFindAndModify: false }
+      {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+      }
     );
 
-    res.status(200).json({ success: true, task: updatedTask });
+    res.status(200).json({ success: true, task: updatedTask, taskId: task.id });
   } catch (error) {
     next(error);
   }
