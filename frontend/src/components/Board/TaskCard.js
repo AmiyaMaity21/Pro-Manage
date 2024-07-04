@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { formatDate } from "../../utils/dateUtils";
+import { useDispatch } from "react-redux";
+import { formatDate } from "../../utils/utils";
 import { updateTask } from "../../actions/taskAction";
+import { getUserLogo, isDueDatePassed } from "../../utils/utils";
 const TaskCard = (props) => {
   const {
     task,
@@ -63,10 +64,7 @@ const TaskCard = (props) => {
     );
     dispatch(updateTask(taskId, { checklists: updatedChecklists }));
   };
-  const getUserLogo = (email) => {
-    const parts = email.split("@")[0];
-    return parts.slice(0, 2).toUpperCase();
-  };
+
   return (
     <div className="task-item">
       <div className="item-head">
@@ -125,7 +123,11 @@ const TaskCard = (props) => {
         {task.dueDate && (
           <p
             className={
-              task.taskStatus === "done" ? "due-date-green" : "due-date-red"
+              task.taskStatus === "done"
+                ? "due-date-green"
+                : isDueDatePassed(task.dueDate)
+                ? "due-date-red"
+                : "due-date-grey"
             }
           >
             {formatDate(task.dueDate)}

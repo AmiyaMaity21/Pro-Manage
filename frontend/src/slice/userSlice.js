@@ -18,6 +18,7 @@ const userSlice = createSlice({
     },
     registerSuccess: (state) => {
       state.loading = false;
+      state.registerErrors = {};
     },
     registerFailure: (state, action) => {
       state.loading = false;
@@ -37,6 +38,7 @@ const userSlice = createSlice({
       state.isAuthenticated = true;
       state.user = action.payload.user;
       state.userId = action.payload.userId;
+      state.loginErrors = {};
     },
     loginFailure: (state, action) => {
       state.loading = false;

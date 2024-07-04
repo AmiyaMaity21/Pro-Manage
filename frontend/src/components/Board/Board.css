@@ -243,6 +243,11 @@
     color: #FFFFFF;
 }
 
+.due-date-grey {
+    background-color: #DBDBDB;
+    color: #5A5A5A;
+}
+
 .item-details {
     display: flex;
     flex-direction: column;

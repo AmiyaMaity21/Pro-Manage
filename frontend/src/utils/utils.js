@@ -1,4 +1,4 @@
-export function formatDate(dateString, formatType = "default") {
+export const formatDate = (dateString, formatType = "default") => {
   const date = dateString ? new Date(dateString) : new Date();
 
   const months = [
@@ -38,4 +38,16 @@ export function formatDate(dateString, formatType = "default") {
   } else {
     return `${day}${daySuffix} ${month}, ${year}`;
   }
-}
+};
+
+export const getUserLogo = (email) => {
+  const parts = email.split("@")[0];
+  return parts.slice(0, 2).toUpperCase();
+};
+
+export const isDueDatePassed = (dueDate) => {
+  const currentDate = new Date();
+  return (
+    currentDate.setHours(0, 0, 0, 0) > new Date(dueDate).setHours(0, 0, 0, 0)
+  );
+};

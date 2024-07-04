@@ -6,8 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GoPeople } from "react-icons/go";
 import Menu from "../Menu/Menu";
 import { getTasksByUser } from "../../actions/taskAction";
-import { formatDate } from "../../utils/dateUtils";
-
+import { formatDate } from "../../utils/utils";
 
 const Board = () => {
   const dispatch = useDispatch();

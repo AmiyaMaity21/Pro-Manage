@@ -203,8 +203,8 @@
     appearance: none;
     cursor: pointer;
     position: absolute;
-    top: 13px;
-    left: 13px;
+    top: 14px;
+    left: 14px;
 }
 
 .task-checkbox:checked {

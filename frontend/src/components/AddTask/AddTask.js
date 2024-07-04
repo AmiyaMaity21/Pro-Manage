@@ -5,12 +5,7 @@ import { RiArrowDownSLine } from "react-icons/ri";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createTask, updateTask } from "../../actions/taskAction";
-import { formatDate } from "../../utils/dateUtils";
-
-const getUserLogo = (email) => {
-  const parts = email.split("@")[0];
-  return parts.slice(0, 2).toUpperCase();
-};
+import { formatDate, getUserLogo } from "../../utils/utils";
 
 const AddTask = () => {
   const navigate = useNavigate();

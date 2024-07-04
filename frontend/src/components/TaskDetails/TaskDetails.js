@@ -3,7 +3,7 @@ import "./TaskDetails.css";
 import codesandbox from "../../assets/codesandbox.png";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { formatDate } from "../../utils/dateUtils";
+import { formatDate } from "../../utils/utils";
 import { getTask } from "../../actions/taskAction";
 const TaskDetails = () => {
   const dispatch = useDispatch();
