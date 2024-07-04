@@ -31,10 +31,26 @@ const AddTask = () => {
   });
   const [selectedDate, setSelectedDate] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [errors, setErrors] = useState({
+    title: "",
+    priority: "",
+    checklist: "",
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === "title" && value.trim()) {
+      setErrors((prev) => ({ ...prev, title: "" }));
+    }
+  };
+
+  const handlePrioritySelect = (level) => {
+    setFormData((prev) => ({
+      ...prev,
+      priority: prev.priority === level ? "" : level,
+    }));
+    setErrors((prev) => ({ ...prev, priority: "" }));
   };
 
   const handleUserSelect = (user) => {
@@ -68,6 +84,7 @@ const AddTask = () => {
         { id: prev.checklists.length + 1, text: "", checked: false },
       ],
     }));
+    setErrors((prev) => ({ ...prev, checklist: "" }));
   };
 
   const handleDeleteTask = (checklistId) => {
@@ -81,28 +98,50 @@ const AddTask = () => {
 
   const handleCreateTask = (event) => {
     event.preventDefault();
-    if (state?.edit) {
-      dispatch(updateTask(state.id, formData));
-      navigate("/");
-    } else {
-      dispatch(createTask(formData));
-      navigate("/");
+    let valid = true;
+    const newErrors = { title: "", priority: "", checklist: "" };
+
+    if (!formData.title) {
+      newErrors.title = "Title is required";
+      valid = false;
+    }
+    if (!formData.priority) {
+      newErrors.priority = "Priority is required";
+      valid = false;
+    }
+    if (formData.checklists.length === 0) {
+      newErrors.checklist = "At least one checklist is required";
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    if (valid) {
+      if (state?.edit) {
+        dispatch(updateTask(state.id, formData));
+        navigate("/");
+      } else {
+        dispatch(createTask(formData));
+        navigate("/");
+      }
     }
   };
   return (
     <div className="modal-backdrop">
       <div className="add-task-Form">
-        <p>
-          Title<span className="required">*</span>
-        </p>
-        <input
-          type="text"
-          name="title"
-          placeholder="Enter Task Title"
-          className="title-inputField"
-          value={formData.title}
-          onChange={handleChange}
-        />
+        <div>
+          <label>
+            Title<span className="required">*</span>
+          </label>
+          <input
+            type="text"
+            name="title"
+            placeholder="Enter Task Title"
+            className="title-inputField"
+            value={formData.title}
+            onChange={handleChange}
+          />
+        </div>
+        {errors.title && <p className="error-message">{errors.title}</p>}
         <div className="priority-list">
           <p>
             Select Priority<span className="required">*</span>
@@ -113,14 +152,13 @@ const AddTask = () => {
               className={`priority-item ${level} ${
                 formData.priority === level ? "selected" : ""
               }`}
-              onClick={() =>
-                setFormData((prev) => ({ ...prev, priority: level }))
-              }
+              onClick={() => handlePrioritySelect(level)}
             >
               {`${level.toUpperCase()} PRIORITY`}
             </li>
           ))}
         </div>
+        {errors.priority && <p className="error-message">{errors.priority}</p>}
         <div className="assign-field">
           <label>Assign to</label>
           <div className="custom-select">
@@ -160,7 +198,7 @@ const AddTask = () => {
             }
             /{formData.checklists.length})<span className="required">*</span>
           </p>
-          <div className="checklists">
+          <div className="add-checklists">
             {formData.checklists.map((checklist) => (
               <div key={checklist.id} className="checklist-inputContainer">
                 <input
@@ -192,6 +230,9 @@ const AddTask = () => {
               </div>
             ))}
           </div>
+          {errors.checklist && (
+            <p className="error-message">{errors.checklist}</p>
+          )}
         </div>
         <p className="addTask" onClick={handleAddChecklist}>
           + Add New

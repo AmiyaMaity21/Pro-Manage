@@ -99,41 +99,35 @@ const updateTaskDetailsById = async (req, res, next) => {
     const isCreator = task.createdBy.toString() === req.user.id;
     const isAssignedUser = task.assignUser === req.user.email;
 
-    if (!isCreator && !isAssignedUser) {
+    // Check if the user can edit the task
+    const canEdit = isCreator || isAssignedUser;
+
+    if (!canEdit) {
       return res.status(403).json({ errorMessage: "Unauthorized action" });
     }
 
-    const { title, priority, assignUser, checklists, dueDate, taskStatus } =
+    const { title, priority, checklists, dueDate, taskStatus, assignUser } =
       req.body;
     let taskData = {};
 
     if (isCreator) {
-      if (taskStatus) taskData.taskStatus = taskStatus;
-      if (checklists) taskData.checklists = checklists;
       if (title) taskData.title = title.trim();
       if (priority) taskData.priority = priority;
       if (assignUser) taskData.assignUser = assignUser;
-
-      if (
-        (title || priority) &&
-        (!title || !priority || (checklists && checklists.length === 0))
-      ) {
-        return res
-          .status(400)
-          .json({ errorMessage: "Please fill all the required fields" });
-      }
-
+      if (taskStatus) taskData.taskStatus = taskStatus;
+      if (checklists) taskData.checklists = checklists;
       if (dueDate) {
         const [day, month, year] = dueDate.split("/");
         taskData.dueDate = new Date(`${year}-${month}-${day}`);
       }
     } else if (isAssignedUser) {
-      if (checklists) {
-        taskData.checklists = checklists;
-      } else {
-        return res
-          .status(400)
-          .json({ errorMessage: "Unauthorized action" });
+      if (title) taskData.title = title.trim();
+      if (priority) taskData.priority = priority;
+      if (taskStatus) taskData.taskStatus = taskStatus;
+      if (checklists) taskData.checklists = checklists;
+      if (dueDate) {
+        const [day, month, year] = dueDate.split("/");
+        taskData.dueDate = new Date(`${year}-${month}-${day}`);
       }
     }
 

@@ -14,9 +14,6 @@ const TaskCard = (props) => {
     setShowPopup,
   } = props;
   const [linkCopied, setLinkCopied] = useState(false);
-  const { user } = useSelector((state) => state.user);
-  console.log(user.email);
-  console.log(task.assignUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -41,10 +38,10 @@ const TaskCard = (props) => {
     );
   };
   const handleEditClick = () => {
-      setShowPopup("");
-      navigate("/task-post", {
-        state: { id: task._id, taskData: task, edit: true },
-      });
+    setShowPopup("");
+    navigate("/task-post", {
+      state: { id: task._id, taskData: task, edit: true },
+    });
   };
   const handleShare = () => {
     const taskLink = `${window.location.origin}/task/${task._id}`;
@@ -73,12 +70,12 @@ const TaskCard = (props) => {
   return (
     <div className="task-item">
       <div className="item-head">
-        <li
-          className={`priority-status ${task.priority}`}
-        >{`${task.priority.toUpperCase()} PRIORITY`}</li>
-        {task.assignUser && (
-          <p className="user-logo">{getUserLogo(task?.assignUser)}</p>
-        )}
+        <li className={`priority-status ${task.priority}`}>
+          {`${task.priority.toUpperCase()} PRIORITY`}
+          {task.assignUser && (
+            <span className="user-logo">{getUserLogo(task?.assignUser)}</span>
+          )}
+        </li>
         <i
           className="dot"
           onClick={() => setShowPopup(showPopup === task._id ? "" : task._id)}
