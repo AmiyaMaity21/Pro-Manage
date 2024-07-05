@@ -146,6 +146,28 @@
     color: #000000;
     border-radius: 50%;
     margin-left: 0.5rem;
+    cursor: pointer;
+}
+
+.tooltiptext {
+    visibility: hidden;
+    background-color:#000000	;
+    color: #fff;
+    font-size: 10px;
+    padding: 5px;
+    border-radius: 6px;
+    position: absolute;
+    left: 0;
+    top: 1.75rem;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.user-logo:hover .tooltiptext,
+.task-title:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
 }
 
 .item-checklist {
@@ -153,8 +175,9 @@
     margin-top: 1rem;
 }
 
-.task-item>p {
+.task-title {
     font-size: 18px;
+    position: relative;
 }
 
 .priority-status {
@@ -169,7 +192,7 @@
     content: '.';
     position: absolute;
     top: -9px;
-    left: 0;
+    left: -3px;
     font-size: 3.5rem;
     line-height: 0;
 }

@@ -71,7 +71,10 @@ const TaskCard = (props) => {
         <li className={`priority-status ${task.priority}`}>
           {`${task.priority.toUpperCase()} PRIORITY`}
           {task.assignUser && (
-            <span className="user-logo">{getUserLogo(task?.assignUser)}</span>
+            <span className="user-logo">
+              {getUserLogo(task?.assignUser)}
+              <span className="tooltiptext">{task?.assignUser}</span>
+            </span>
           )}
         </li>
         <i
@@ -90,7 +93,12 @@ const TaskCard = (props) => {
           </div>
         )}
       </div>
-      <p>{task.title}</p>
+      <p className="task-title">
+        {task.title.length > 15
+          ? `${task.title.substring(0, 15)}...`
+          : task.title}
+        {task.title.length > 15 &&<span className="tooltiptext">{task.title}</span>}
+      </p>
       <div className="item-checklist">
         <p>
           Checklist (
