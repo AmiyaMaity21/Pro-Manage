@@ -11,10 +11,11 @@ const TaskCard = (props) => {
     task,
     expandedChecklist,
     handleToggleState,
-    showPopup,
-    setShowPopup,
+    taskMenu,
+    handleDotClick,
   } = props;
   const [linkCopied, setLinkCopied] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -39,7 +40,7 @@ const TaskCard = (props) => {
     );
   };
   const handleEditClick = () => {
-    setShowPopup("");
+    handleDotClick(task._id);
     navigate("/task-post", {
       state: { id: task._id, taskData: task, edit: true },
     });
@@ -47,16 +48,16 @@ const TaskCard = (props) => {
   const handleShare = () => {
     const taskLink = `${window.location.origin}/task/${task._id}`;
     navigator.clipboard.writeText(taskLink).then(() => {
-      setShowPopup("");
+      handleDotClick(task._id);
       setLinkCopied(true);
       setTimeout(() => setLinkCopied(false), 2000);
     });
   };
   const handledeleteClick = () => {
-    setShowPopup("");
+    handleDotClick(task._id);
     navigate(`/delete/${task._id}`);
   };
-  const handleChecklistChange = (taskId, checklistIndex) => {
+  const handleChecklistUpdate = (taskId, checklistIndex) => {
     const updatedChecklists = task.checklists.map((checklist, index) =>
       index === checklistIndex
         ? { ...checklist, checked: !checklist.checked }
@@ -77,13 +78,10 @@ const TaskCard = (props) => {
             </span>
           )}
         </li>
-        <i
-          className="dot"
-          onClick={() => setShowPopup(showPopup === task._id ? "" : task._id)}
-        >
+        <i className="dot" onClick={() => handleDotClick(task._id)}>
           <HiOutlineDotsHorizontal />
         </i>
-        {showPopup === task._id && (
+        {taskMenu === task._id && (
           <div className="popup-menu">
             <p onClick={handleEditClick}>Edit</p>
             <p onClick={handleShare}>Share</p>
@@ -94,10 +92,12 @@ const TaskCard = (props) => {
         )}
       </div>
       <p className="task-title">
-        {task.title.length > 15
-          ? `${task.title.substring(0, 15)}...`
+        {task.title.length > 25
+          ? `${task.title.substring(0, 25)}...`
           : task.title}
-        {task.title.length > 15 &&<span className="tooltiptext">{task.title}</span>}
+        {task.title.length > 25 && (
+          <span className="tooltiptext">{task.title}</span>
+        )}
       </p>
       <div className="item-checklist">
         <p>
@@ -120,7 +120,7 @@ const TaskCard = (props) => {
               <input
                 type="checkbox"
                 checked={checklist.checked}
-                onChange={() => handleChecklistChange(task._id, index)}
+                onChange={() => handleChecklistUpdate(task._id, index)}
               />
               <p>{checklist.text}</p>
             </div>

@@ -58,7 +58,7 @@ export const getTasksByUser = (dateRange) => async (dispatch) => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     dispatch(getTaskByUserRequest());
     const url = dateRange
-      ? `${backendUrl}/task/all-tasks?filterByDate=${dateRange}`
+      ? `${backendUrl}/task/all-tasks?filterByDateRange=${dateRange}`
       : `${backendUrl}/task/all-tasks`;
 
     const { data } = await axios.get(url);

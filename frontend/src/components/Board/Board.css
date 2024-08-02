@@ -19,20 +19,20 @@
     margin-right: 2rem;
 }
 
-.board-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 2rem 2rem 1rem 0;
-}
-
 .board-head>h2 {
     font-weight: 700;
     font-size: 18px;
     color: #000000
 }
 
-.board-title>div {
+.board-title-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem 2rem 1rem 0;
+}
+
+.board-title {
     display: flex;
     align-items: center;
     gap: 1.5rem;
@@ -40,18 +40,39 @@
     color: #000000;
 }
 
-.board-title>div>i {
+.board-title>i {
     font-style: normal;
-    font-size: 18px;
+    font-size: 16px;
     color: #707070;
     cursor: pointer;
 }
 
-.board-title>select {
-    border: none;
-    outline: none;
+.filterTask {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-size: 14px;
-    font-family: "Poppins", sans-serif;
+    position: relative;
+}
+
+.filterTask>i {
+    cursor: pointer;
+    line-height: 0;
+}
+
+.filter-menu{
+    position: absolute;
+    width: 120px;
+    top: 1.25rem;
+    right: 0.25rem;
+    padding: 1rem;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background-color: #FFFFFF;
+    cursor: pointer;
+    box-shadow: 0px 2px 12px 0px rgba(130, 105, 140, 0.2);
 }
 
 .tasks {
@@ -151,7 +172,7 @@
 
 .tooltiptext {
     visibility: hidden;
-    background-color:#000000	;
+    background-color: #000000;
     color: #fff;
     font-size: 10px;
     padding: 5px;

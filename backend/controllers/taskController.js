@@ -34,7 +34,7 @@ const createTask = async (req, res, next) => {
 // Get all user tasks
 const getAllTasks = async (req, res, next) => {
   try {
-    const { filterByDate } = req.query;
+    const { filterByDateRange } = req.query;
     const today = new Date();
 
     const startOfDay = new Date(today);
@@ -56,12 +56,15 @@ const getAllTasks = async (req, res, next) => {
     endOfMonth.setHours(23, 59, 59, 999);
 
     const dateRanges = {
-      today: { createdAt: { $gte: startOfDay, $lte: endOfDay } },
-      week: { createdAt: { $gte: startOfWeek, $lte: endOfWeek } },
-      month: { createdAt: { $gte: startOfMonth, $lte: endOfMonth } },
+      "today": { createdAt: { $gte: startOfDay, $lte: endOfDay } },
+      "this week": { createdAt: { $gte: startOfWeek, $lte: endOfWeek } },
+      "this month": { createdAt: { $gte: startOfMonth, $lte: endOfMonth } },
     };
+    if (filterByDateRange && !dateRanges.hasOwnProperty(filterByDateRange)) {
+      return res.status(400).json({ success: false, errorMessage: "Invalid date filter" });
+    }
 
-    const dateRange = filterByDate ? dateRanges[filterByDate] : {};
+    const dateRange = filterByDateRange ? dateRanges[filterByDateRange] : {};
 
     // const tasks = await Task.find({ createdBy: req.user.id, ...dateRange });
     const tasks = await Task.find({

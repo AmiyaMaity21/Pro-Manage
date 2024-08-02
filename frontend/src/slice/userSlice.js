@@ -15,6 +15,7 @@ const userSlice = createSlice({
   reducers: {
     registerRequest: (state) => {
       state.loading = true;
+      state.loginErrors = {};
     },
     registerSuccess: (state) => {
       state.loading = false;
@@ -32,6 +33,7 @@ const userSlice = createSlice({
 
     loginRequest: (state) => {
       state.loading = true;
+      state.registerErrors = {};
     },
     loginSuccess: (state, action) => {
       state.loading = false;

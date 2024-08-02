@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Menu from "../Menu/Menu";
 import "./Analytics.css";
+import AnalyticsCard from "./AnalyticsCard";
 import { getTasksByUser } from "../../actions/taskAction";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -68,13 +69,13 @@ const Analytics = () => {
       <div className="analytics-container">
         <h2>Analytics</h2>
         <div className="analytics-content">
-          <TaskCard title="Task Status" tasks={[
+          <AnalyticsCard tasks={[
             { title: "Backlog Tasks", count: backlogCount },
             { title: "To-do Tasks", count: todoCount },
             { title: "In-Progress Tasks", count: progressCount },
             { title: "Completed Tasks", count: doneCount },
           ]} />
-          <TaskCard title="Task Priority" tasks={[
+          <AnalyticsCard tasks={[
             { title: "Low Priority", count: lowPriorityCount },
             { title: "Moderate Priority", count: moderatePriorityCount },
             { title: "High Priority", count: highPriorityCount },
@@ -85,18 +86,5 @@ const Analytics = () => {
     </div>
   );
 };
-
-// TaskCard component to render task counts
-const TaskCard = ({ title, tasks }) => (
-  <div className="task-card">
-    <h3>{title}</h3>
-    {tasks.map((task, index) => (
-      <div key={index} className="task-card-item">
-        <li>{task.title}</li>
-        <p>{task.count}</p>
-      </div>
-    ))}
-  </div>
-);
 
 export default Analytics;

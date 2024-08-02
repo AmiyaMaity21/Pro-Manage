@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Board.css";
 import AddPeopleForm from "../AddPeopleForm/AddPeopleForm";
 import TaskSection from "./TaskSection";
+import { FaAngleDown } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { GoPeople } from "react-icons/go";
 import Menu from "../Menu/Menu";
@@ -15,28 +16,14 @@ const Board = () => {
     (state) => state.task
   );
 
-  const [expandedChecklist, setExpandedChecklist] = useState([]);
-  const [selectedDateRange, setSelectedDateRange] = useState("week");
+  const [selectedDateRange, setSelectedDateRange] = useState("This Week");
+  const [filterMenu, setFilterMenu] = useState(false);
   const [addPeople, setAddPeople] = useState(false);
-  const [showPopup, setShowPopup] = useState("");
 
   useEffect(() => {
-    dispatch(getTasksByUser(selectedDateRange));
+    const dateRange = selectedDateRange.toLowerCase();
+    dispatch(getTasksByUser(dateRange));
   }, [dispatch, selectedDateRange, newTask, isDeletedTask, isUpdatedTask]);
-
-  const handleToggleState = (taskId) => {
-    setExpandedChecklist((prevState) =>
-      prevState.includes(taskId)
-        ? prevState.filter((id) => id !== taskId)
-        : [...prevState, taskId]
-    );
-  };
-
-  const collapseAll = (tasks) => {
-    setExpandedChecklist((prevState) =>
-      prevState.filter((id) => !tasks.some((task) => task._id === id))
-    );
-  };
 
   return (
     <div className="board">
@@ -46,64 +33,53 @@ const Board = () => {
           <h2>Welcome! {user?.name}</h2>
           <p>{formatDate()}</p>
         </div>
-        <div className="board-title">
-          <div>
+        <div className="board-title-section">
+          <div className="board-title">
             <p>Board</p>
             <i onClick={() => setAddPeople(!addPeople)}>
-              <GoPeople /> Add People
+              <GoPeople /> <span>Add People</span>
             </i>
             {addPeople && (
               <AddPeopleForm onClose={() => setAddPeople(!addPeople)} />
             )}
           </div>
-          <select
-            value={selectedDateRange}
-            onChange={(e) => setSelectedDateRange(e.target.value)}
-          >
-            <option value="today">Today</option>
-            <option value="week">This week</option>
-            <option value="month">This month</option>
-          </select>
+          <div className="filterTask">
+            <p>{selectedDateRange}</p>
+            <i onClick={() => setFilterMenu(!filterMenu)}>
+              <FaAngleDown />
+            </i>
+            {filterMenu && (
+              <div className="filter-menu">
+                {["Today", "This Week", "This Month"].map(
+                  (dateRange, index) => (
+                    <p
+                      key={index}
+                      onClick={() => setSelectedDateRange(dateRange)}
+                    >
+                      {dateRange}
+                    </p>
+                  )
+                )}
+              </div>
+            )}
+          </div>
         </div>
         <div className="tasks">
           <TaskSection
             title="Backlog"
             tasks={userTasks?.filter((task) => task.taskStatus === "backlog")}
-            expandedChecklist={expandedChecklist}
-            handleToggleState={handleToggleState}
-            collapseAll={collapseAll}
-            showPopup={showPopup}
-            setShowPopup={setShowPopup}
           />
           <TaskSection
             title="To do"
             tasks={userTasks?.filter((task) => task.taskStatus === "todo")}
-            showAddButton
-            expandedChecklist={expandedChecklist}
-            handleToggleState={handleToggleState}
-            collapseAll={collapseAll}
-            showPopup={showPopup}
-            setShowPopup={setShowPopup}
           />
           <TaskSection
             title="In progress"
-            tasks={userTasks?.filter(
-              (task) => task.taskStatus === "progress"
-            )}
-            expandedChecklist={expandedChecklist}
-            handleToggleState={handleToggleState}
-            collapseAll={collapseAll}
-            showPopup={showPopup}
-            setShowPopup={setShowPopup}
+            tasks={userTasks?.filter((task) => task.taskStatus === "progress")}
           />
           <TaskSection
             title="Done"
             tasks={userTasks?.filter((task) => task.taskStatus === "done")}
-            expandedChecklist={expandedChecklist}
-            handleToggleState={handleToggleState}
-            collapseAll={collapseAll}
-            showPopup={showPopup}
-            setShowPopup={setShowPopup}
           />
         </div>
       </div>

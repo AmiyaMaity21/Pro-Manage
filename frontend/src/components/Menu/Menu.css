@@ -28,13 +28,13 @@
     gap: 1rem;
     padding: 0.5rem 0 0.5rem 2.5rem;
     margin-bottom: 2rem;
+    color: #707070;
 }
 
 .menu-item>i {
     font-size: 1.5rem;
     line-height: 0;
-    vertical-align: middle;
-    color: #707070;
+    vertical-align: middle;  
 }
 
 .link-title {
@@ -45,9 +45,6 @@
 
 .menu-active {
     background-color: #4391ED1A;
-}
-
-.menu-active>i {
     color: #000000;
 }
 

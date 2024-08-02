@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { MdDelete } from "react-icons/md";
 import "./AddTask.css";
-import { RiArrowDownSLine } from "react-icons/ri";
+import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createTask, updateTask } from "../../actions/taskAction";
@@ -19,12 +19,12 @@ const AddTask = () => {
     assignUser: stateData?.assignUser || "",
     dueDate: (stateData?.dueDate && formatDate(stateData?.dueDate, "us")) || "",
     checklists:
-      stateData?.checklists.map((checklist, index) => ({
+      stateData?.checklists.map((checklist) => ({
         ...checklist,
-        id: checklist._id || index + 1,
+        id: checklist._id,
       })) || [],
   });
-  const [selectedDate, setSelectedDate] = useState("");
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [errors, setErrors] = useState({
     title: "",
@@ -34,61 +34,60 @@ const AddTask = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData({ ...formData, [name]: value });
     if (name === "title" && value.trim()) {
-      setErrors((prev) => ({ ...prev, title: "" }));
+      setErrors({ ...errors, title: "" });
     }
   };
 
   const handlePrioritySelect = (level) => {
-    setFormData((prev) => ({
-      ...prev,
-      priority: prev.priority === level ? "" : level,
-    }));
-    setErrors((prev) => ({ ...prev, priority: "" }));
+    setFormData({
+      ...formData,
+      priority: formData.priority === level ? "" : level,
+    });
+    setErrors({ ...errors, priority: "" });
   };
 
   const handleUserSelect = (user) => {
-    setFormData((prev) => ({ ...prev, assignUser: user }));
+    setFormData({ ...formData, assignUser: user });
     setIsDropdownOpen(false);
   };
 
   const handleDateChange = (e) => {
     const dateValue = e.target.value;
-    setSelectedDate(dateValue);
     const dueDate = dateValue ? dateValue.split("-").reverse().join("/") : "";
-    setFormData((prev) => ({ ...prev, dueDate }));
+    setFormData({ ...formData, dueDate });
   };
 
   const handleChecklistChange = (checklistId, key, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      checklists: prev.checklists.map((checklist) =>
+    setFormData({
+      ...formData,
+      checklists: formData.checklists.map((checklist) =>
         checklist.id === checklistId
           ? { ...checklist, [key]: value }
           : checklist
       ),
-    }));
+    });
   };
 
   const handleAddChecklist = () => {
-    setFormData((prev) => ({
-      ...prev,
+    setFormData({
+      ...formData,
       checklists: [
-        ...prev.checklists,
-        { id: prev.checklists.length + 1, text: "", checked: false },
+        ...formData.checklists,
+        { id: formData.checklists.length + 1, text: "", checked: false },
       ],
-    }));
-    setErrors((prev) => ({ ...prev, checklist: "" }));
+    });
+    setErrors({ ...errors, checklist: "" });
   };
 
   const handleDeleteTask = (checklistId) => {
-    setFormData((prev) => ({
-      ...prev,
-      checklists: prev.checklists.filter(
+    setFormData({
+      ...formData,
+      checklists: formData.checklists.filter(
         (checklist) => checklist.id !== checklistId
       ),
-    }));
+    });
   };
 
   const handleCreateTask = (event) => {
@@ -120,6 +119,7 @@ const AddTask = () => {
       }
     }
   };
+
   return (
     <div className="modal-backdrop">
       <div className="add-task-Form">
@@ -164,7 +164,7 @@ const AddTask = () => {
                 disabled={user?.addedUser?.length === 0}
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                <RiArrowDownSLine />
+                {isDropdownOpen ? <RiArrowUpSLine /> : <RiArrowDownSLine />}
               </button>
             </div>
             {isDropdownOpen && (
@@ -243,7 +243,7 @@ const AddTask = () => {
               id="hiddenDateInput"
               type="date"
               className="hidden-date-field"
-              value={selectedDate}
+              value={formData.dueDate}
               onChange={handleDateChange}
             />
             <input

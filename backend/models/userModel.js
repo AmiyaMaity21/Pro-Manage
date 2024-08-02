@@ -18,7 +18,6 @@ const userSchema = new mongoose.Schema(
     addedUser: [
       {
         type: String,
-        required: false,
       },
     ],
   },

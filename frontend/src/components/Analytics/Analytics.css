@@ -2,56 +2,58 @@
     display: flex;
     width: 100vw;
     height: 100vh;
-    font-family: "Open Sans", sans-serif;
 }
 
 .analytics-container {
-    padding: 2rem;
-    font-weight: 500;
+    padding: 1.5rem 3rem;
+    font-weight: 600;
+    font-family: "Open Sans", sans-serif;
 }
 
-.analytics-container>h2 {
-    font-weight: 600;
+.analytics-container>h2 { 
     font-size: 1.5rem;
     margin-bottom: 2.5rem;
 }
 
-.analytics-container>div {
+.analytics-content {
     display: flex;
-    gap: 2rem;
+    gap: 1rem;
 }
 
-.task-card,
-.priority-card {
-    width: 450px;
-    padding: 1.5rem 1rem;
+.analytics-card {
+    width: 475px;
+    padding: 2.5rem 1.5rem;
     border-radius: 12px;
     background-color: #F9FCFF;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
-.task-card-item {
+.analytics-card-item {
     display: flex;
     justify-content: space-between;
-    margin: 1rem;
 }
 
-.task-card-item li {
+.analytics-card-item li {
     list-style-type: none;
     position: relative;
-    padding-left: 1.75rem;
+    padding-left: 2rem;
+    font-size: 18px;
+    font-weight: 400;
 }
 
-.task-card-item li::before {
+.analytics-card-item li::before {
     content: '.';
     position: absolute;
-    top: -1rem;
+    top: -19px;
     left: 0;
     color: #90C4CC;
-    font-size: 5rem;
+    font-size: 6rem;
     line-height: 0;
 }
 
-.task-card-item p {
+.analytics-card-item p {
     font-weight: 600;
-    font-size: 18px;
+    font-size: 20px;
 }

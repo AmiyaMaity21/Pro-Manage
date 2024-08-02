@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   taskLoading: false,
   tasksLoading: false,
-  tasks: [],
   userTasks: null,
   task: null,
   newTask: false,
@@ -39,6 +38,7 @@ const taskSlice = createSlice({
     },
     getTaskByUserFailure: (state) => {
       state.tasksLoading = false;
+      state.userTasks = null;
     },
     getTaskRequest: (state) => {
       state.taskLoading = true;

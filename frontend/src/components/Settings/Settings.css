@@ -2,17 +2,16 @@
     display: flex;
     width: 100vw;
     height: 100vh;
-    font-family: "Open Sans", sans-serif;
 }
 
 .settings-container {
     width: 85%;
-    padding: 2rem;
-    font-weight: 500;
+    padding: 1.5rem 3rem;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
 }
 
 .settings-container>h2 {
-    font-weight: 600;
     font-size: 1.5rem;
     margin-bottom: 2.5rem;
 }
